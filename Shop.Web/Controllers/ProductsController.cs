@@ -9,6 +9,7 @@
     using Shop.Web.Models;
     using System.IO;
     using System;
+    using System.Linq;
 
     public class ProductsController : Controller
 {
@@ -25,7 +26,7 @@
 	// GET: Products
 	public IActionResult Index()
 	{
-    	return View(this.productRepository.GetAll());
+    	return View(this.productRepository.GetAll().OrderBy(p => p.Name));
 	}
 
 	// GET: Products/Details/5
@@ -166,7 +167,7 @@
                     var product = this.ToProduct(view, path);
                     // TODO: Pending to change to: this.User.Identity.Name
                     product.User = await this.userHelper.GetUserByEmailAsync("jzuluaga55@gmail.com");
-            	await this.productRepository.UpdateAsync(product);
+                 	await this.productRepository.UpdateAsync(product);
         	}
         	catch (DbUpdateConcurrencyException)
         	{
